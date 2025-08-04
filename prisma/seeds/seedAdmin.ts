@@ -7,7 +7,7 @@ export async function seedAdmin(prisma:PrismaClient){
 
     if(countAdmin === 0) {
         const hashedPassword = await bcrypt.hash("admin123", 12)
-    
+
         await prisma.user.create({
             data:{
                 fullName:"Admin",
@@ -16,7 +16,7 @@ export async function seedAdmin(prisma:PrismaClient){
                 role :Roles.ADMIN
             }
         })
-        
+
         console.log("Admin seeded")
     }
 
