@@ -1,6 +1,8 @@
 # Node Wave Base Repositories for Backend
+
 Submission by: Thariq Agfi Hermawan
-Postman: (https://documenter.getpostman.com/view/27858551/2sB3BBqXmc)[https://documenter.getpostman.com/view/27858551/2sB3BBqXmc]
+
+Postman API Documentation: [Postman Link](https://documenter.getpostman.com/view/27858551/2sB3BBqXmc)
 
 
 ## Tech Stacks
