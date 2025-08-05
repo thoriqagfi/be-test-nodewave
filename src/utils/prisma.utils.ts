@@ -24,7 +24,7 @@ const prismaLogOptsProd:any = [
     emit: "stdout",
     level: "error",
   },
-  {    
+  {
     emit: "stdout",
     level: "warn",
   },
@@ -52,9 +52,7 @@ export class PrismaInstance {
   public getPrismaClient(): PrismaClient {
     return this.prisma;
   }
-
 }
 
 
 export const prisma:PrismaClient = PrismaInstance.getInstance().getPrismaClient();
-
