@@ -1,15 +1,17 @@
 # Node Wave Base Repositories for Backend
+Submission by: Thariq Agfi Hermawan
+Postman: (https://documenter.getpostman.com/view/27858551/2sB3BBqXmc)[https://documenter.getpostman.com/view/27858551/2sB3BBqXmc]
 
 
-## Tech Stacks 
+## Tech Stacks
 
-- Language : TypeScript 
-- ORM : Prisma 
+- Language : TypeScript
+- ORM : Prisma
 - Database : MySQL
-- HTTP Framework : Express 
+- HTTP Framework : Express
 - Logging : Winston + Morgan
 
-> [!NOTE]  
+> [!NOTE]
 >  As stated in Getting Started parts of our notion, don't forget to make sure that you have Node.js >= 16.14.2 and MySQL >= 8.0.3
 
 ## How to use
@@ -20,7 +22,7 @@ Clone this repository, and set up various things like :
 - change auth mechanism to match project
 - update readme (delete this how to use part and change the title!)
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 >  Steps below are steps to run on project, this repo is only a base, not a fully runnable project, this repo only serve as a template! If you wish to try this repo and add more functionality, please create your own branch locally :)
 
 ## Steps To Run Project Locally
@@ -43,27 +45,27 @@ npx prisma migrate --name <migration_name>
 ```
 Run seeder for admin user :
 
-  > [!IMPORTANT]  
+  > [!IMPORTANT]
   > Delete this part on your repository in case there is no seeder available on your codebase.
 
 ```powershell
 npm run seed
 ```
 
-## Running The App 
+## Running The App
 
-This base app was meant to have several different implementation, for now we just have a REST API Server, but if we happen to 
-have more like grpc, cron, or maybe pub-sub consumer, we can register it too the 
-`/app` and `/server` folder 
+This base app was meant to have several different implementation, for now we just have a REST API Server, but if we happen to
+have more like grpc, cron, or maybe pub-sub consumer, we can register it too the
+`/app` and `/server` folder
 
-and register the command into the `/src/index.ts` as the argument of choice 
+and register the command into the `/src/index.ts` as the argument of choice
 
-By Default, to run the app with hot-reload simply run 
+By Default, to run the app with hot-reload simply run
 ```
 npm run dev -- --service=rest
 ```
 
-If you want to start the build version, run it with : 
+If you want to start the build version, run it with :
 ```
 npm start -- --service=rest
 ```
@@ -102,62 +104,62 @@ npx prisma migrate --name <migration_name>
 - Test in postman and document it with example
 
 
-## Folder Structures Brief Explanation 
+## Folder Structures Brief Explanation
 
-#### Apps and Servers 
+#### Apps and Servers
 
-- `/app` 
+- `/app`
 
   This contains app inilization for different communication protocol, files inside this directory is responsible to starting up the communcation protocol based server
 
-  Default app is rest, if you want to add more , you can add it by naming it something like `<protocol>.ts` , e.g. : `grpc.ts` , add it to instance.ts 
+  Default app is rest, if you want to add more , you can add it by naming it something like `<protocol>.ts` , e.g. : `grpc.ts` , add it to instance.ts
 
-- `/server` 
-  
-  This contains server initialization for different communication 
-  protocol server, file inside this directory will responsible to hold the configuration needed, like the the server initialization, dependencies for this communcation protocol etc. 
+- `/server`
 
-  if you want to add more , you can add it by naming it something like `<protocol>.ts` , e.g. : `grpc.ts` , add it to the instance.ts 
+  This contains server initialization for different communication
+  protocol server, file inside this directory will responsible to hold the configuration needed, like the the server initialization, dependencies for this communcation protocol etc.
 
-> [!IMPORTANT]  
+  if you want to add more , you can add it by naming it something like `<protocol>.ts` , e.g. : `grpc.ts` , add it to the instance.ts
+
+> [!IMPORTANT]
 > After you add both app and server, configure it to be receivable my the command line argument, by adding the app function and argument into the if condition inside `src/index.ts`
 
-#### Entities 
+#### Entities
 
-- `/entity` 
+- `/entity`
 
-  Files inside this directory, will hold various `interfaces` or `types`, needed for data transfer and access (DTOs and DAOs), in this directory, we follow the Domain-Driven pattern, where it will easily transalates to each domain means each table on db. 
+  Files inside this directory, will hold various `interfaces` or `types`, needed for data transfer and access (DTOs and DAOs), in this directory, we follow the Domain-Driven pattern, where it will easily transalates to each domain means each table on db.
 
   Or maybe in other case, you can also specify global types that is used everywhere in the code, like `Service.ts` that we currently have and `Query.ts` entities, this means to hold all types related to service responses and dynamic query arguments and also pagination result.
 
 
 #### Packages and Utils
 
-- `/pkg` 
+- `/pkg`
 
-  This dir is simple, you categorize 3rd party integration inside of this dir, you can also define types spesific to this 3rd party inside here, so the common practice is something like : 
+  This dir is simple, you categorize 3rd party integration inside of this dir, you can also define types spesific to this 3rd party inside here, so the common practice is something like :
   ```
-    - pkg 
-        - package name 
+    - pkg
+        - package name
             - index.ts -> package instance (use singleton if possible please)
-            - interfaces.ts -> for package spesific typing 
+            - interfaces.ts -> for package spesific typing
             - utils.ts  -> for utility functions
             - ... methodspecific.ts -> for specific sub-functionality, e.g: coreAPI.ts in midtrans pkg only holds functions needed to do payment through midtrans's Core API
   ```
 
   We make it in this structure so it will be clear that all of this belongs to specific 3rd party.
 
-- `/utils` 
+- `/utils`
 
-  This dir will holds utility function that are needed for helpers globally, like string manipulation, dates manipulation etc 
+  This dir will holds utility function that are needed for helpers globally, like string manipulation, dates manipulation etc
 
- 
-#### Controllers and Services 
 
- - `/controllers` 
-  Here, we also follow domain based filenaming, so each domain will have 1 controller, with the responsibility in controller, only limited to 
+#### Controllers and Services
+
+ - `/controllers`
+  Here, we also follow domain based filenaming, so each domain will have 1 controller, with the responsibility in controller, only limited to
     - Retrieve and parse the request.
-    - Call service function 
+    - Call service function
     - Return the response.
 
 
@@ -168,23 +170,23 @@ npx prisma migrate --name <migration_name>
 
 #### Routes, Validations and Middlewares
 
-- `/routes` 
+- `/routes`
 
-  This folders mainly has 3 parts 
-  1. Domain based files ( e.g. : `ProductRoutes.ts` ), will contains all of the routings by domain 
-  2. `RoutesRegistry.ts`, we pool all the routes exports here 
+  This folders mainly has 3 parts
+  1. Domain based files ( e.g. : `ProductRoutes.ts` ), will contains all of the routings by domain
+  2. `RoutesRegistry.ts`, we pool all the routes exports here
   3. index.ts -> we attach all the routes, pooled from `RoutesRegistry.ts` here
 
-- `/validations` 
+- `/validations`
 
   Domain based, serve as a middleware, contains validation for any operation that involves sending request body, normally you will create the validation here,
   and use it on routes as a `middleware`.
- 
-  > [!WARNING]  
+
+  > [!WARNING]
   > Don't use validation function inside controllers because it will cause an error if you do so.
 
 
-- `/middlewares` 
+- `/middlewares`
 
-  Here contains middlewares that can be used in the `/server/` directory or that can be used globally inside many routes, for example we have 
+  Here contains middlewares that can be used in the `/server/` directory or that can be used globally inside many routes, for example we have
   `authMiddleware` for JWT authentication, `morganMiddleware` for http logging.
