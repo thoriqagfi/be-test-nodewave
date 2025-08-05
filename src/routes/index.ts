@@ -22,6 +22,7 @@ router.get("/ping", (req: Request, res: Response) => {
 router.use("/example", RoutesRegistry.ExampleRoutes)
 router.use("/auth", RoutesRegistry.AuthRoutes)
 router.use("/me", RoutesRegistry.UserRoutes)
+router.use("/file", RoutesRegistry.FileRoutes)
 
 router.all("*", (req: Request, res: Response) => {
   return response_not_found(res);

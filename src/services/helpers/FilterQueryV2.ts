@@ -4,16 +4,16 @@ import { FilteringQueryV2, RangedFilter } from "$entities/Query";
 function buildSearchQuery(searchFilters:Record<string, any | any[] | null>):any[]{
   let whereClauseAndResult:any = [];
   let orQuerySearchArray:any[] = [];
-  
+
   const isMultiKey = Object.values(searchFilters).length > 1;
-  
+
   for (const key in searchFilters) {
     const valueToSearch = searchFilters[key]
     //Additional null safe checking for guarantee
     if (valueToSearch == null) continue;
-    
+
     let searchQuery:any = {}
-    
+
     if (key.includes(".")) {
       let [relation, column] = key.split(".");
 
@@ -23,9 +23,9 @@ function buildSearchQuery(searchFilters:Record<string, any | any[] | null>):any[
             [`${column}`]: {
               contains: valueToSearch
             }
-          } 
+          }
         }
-        isMultiKey ? orQuerySearchArray.push(searchQuery) : whereClauseAndResult.push(searchQuery)      
+        isMultiKey ? orQuerySearchArray.push(searchQuery) : whereClauseAndResult.push(searchQuery)
       }
       continue;
     }
@@ -38,7 +38,7 @@ function buildSearchQuery(searchFilters:Record<string, any | any[] | null>):any[
       }
       isMultiKey ? orQuerySearchArray.push(searchQuery) : whereClauseAndResult.push(searchQuery)
     }
-    
+
   }
 
   if(isMultiKey){
@@ -54,7 +54,7 @@ function buildWhereQuery(filters:Record<string, any | any[] | null>):any[]{
   let whereClauseAndResult:any = [];
   for (const key in filters) {
     const valueToFilter = filters[key];
-      
+
     //Additional early null safe checking for guarantee
     if (valueToFilter == null) continue;
 
@@ -67,19 +67,19 @@ function buildWhereQuery(filters:Record<string, any | any[] | null>):any[]{
           {
             [`${relation}`]:{
               [`${column}`]: value
-            } 
+            }
           }
         ))
         whereClauseAndResult.push({
           OR:orQueryArray
         })
       }
-      
+
       if(!Array.isArray(valueToFilter) && valueToFilter != null) {
         whereClauseAndResult.push({
             [`${relation}`]:{
               [`${column}`]: valueToFilter
-            } 
+            }
         })
       }
       continue;
@@ -100,11 +100,11 @@ function buildWhereQuery(filters:Record<string, any | any[] | null>):any[]{
           [`${key}`]: valueToFilter
         })
     }
-    
+
   }
 
   return whereClauseAndResult
-} 
+}
 
 
 function isValidDate(dateString: any): boolean{
@@ -120,10 +120,10 @@ function parseAndCheckRangeFilter(range: RangedFilter): any {
       range.start = new Date(range.start)
       range.end = new Date(range.end)
     } else {
-      range.start = range.start 
+      range.start = range.start
       range.end = range.end
   }
-  
+
   return range
 }
 
@@ -153,30 +153,30 @@ export function buildFilterQueryLimitOffsetV2(filter: FilteringQueryV2) {
     },
   };
 
-  /* This is the `inference-engine` for dynamic filtering 
+  /* This is the `inference-engine` for dynamic filtering
 
-    in V2 both Searching and Filters are constructed in type of `ClauseFilterV2` 
+    in V2 both Searching and Filters are constructed in type of `ClauseFilterV2`
 
-    Which formed like : 
+    Which formed like :
     {
       "filters": {
          "column" : ["value1", "value2"] -> multi value filter , in v1 we use SQL's in operator, but now we use OR chaining
-         "column2" : "value" -> single value filter , we use WHERE = 
+         "column2" : "value" -> single value filter , we use WHERE =
          "column3" : null -> we don't handle this, since this is just a placeholder from fe
       }
     }
 
-    We give these flexibility so that front-end can have the flexibility of filtering easier by just sending null and emit the value 
+    We give these flexibility so that front-end can have the flexibility of filtering easier by just sending null and emit the value
     as user fill the filter inside the dropdown or whatever input they use.
 
-  
+
   */
   if (filter.filters) {
     usedFilter.where.AND = buildWhereQuery(filter.filters)
   }
-  
+
   if(filter.searchFilters){
-    
+
     usedFilter.where.AND = buildSearchQuery(filter.searchFilters).reduce((arr,v)=>{
       arr.push(v)
       return arr
@@ -209,7 +209,7 @@ export function buildFilterQueryLimitOffsetV2(filter: FilteringQueryV2) {
     } else {
       skip = 10 * (filter.page - 1);
     }
-  } 
+  }
 
   usedFilter.take = take;
   usedFilter.skip = skip;
